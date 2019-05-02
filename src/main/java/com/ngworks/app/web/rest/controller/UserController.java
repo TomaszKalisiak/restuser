@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.ws.rs.core.MediaType;
 
@@ -76,7 +75,7 @@ public class UserController {
             @PathVariable("name") @NotBlank
             @Size(max = 100, message = "name must not be greated then 100 characters") String name,
             @ApiParam(value = "User password to hash and save.", required = true)
-            @Valid @NotNull @NotBlank @RequestBody String password) {
+            @Valid @NotBlank(message = "password must be provided.") @RequestBody String password) {
 
         User user = userService.save(name, password);
         return UserDTO.from(user);
@@ -95,7 +94,7 @@ public class UserController {
             @PathVariable(value = "name") @NotBlank
             @Size(max = 100, message = "name must not be greated then 100 characters") String name,
             @ApiParam(value = "User password to hash and update.", required = true)
-            @Valid @NotNull @NotBlank @RequestBody String password)
+            @Valid @NotBlank(message = "password must be provided.") @RequestBody String password)
             throws ResourceNotFoundException {
 
         User user = userService.findUserByName(name)
