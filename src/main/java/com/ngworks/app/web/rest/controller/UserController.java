@@ -14,9 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.ws.rs.core.MediaType;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -31,27 +32,29 @@ public class UserController {
 
     @ApiOperation(value = "View the list of all available name and hashed passwords", response = UsersDTO.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved list"),
+            @ApiResponse(code = 200, message = "Successfully retrieved list of users"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(path = "/users")
+    @GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON)
     public UsersDTO getUsers() {
         return UsersDTO.from(userService.getAllUsers());
     }
-    
+
     @ApiOperation(value = "Get user by name.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved list"),
+            @ApiResponse(code = 200, message = "Successfully retrieved a user"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(path = "/users/{name}")
+    @GetMapping(path = "/users/{name}", produces = MediaType.APPLICATION_JSON)
     public ResponseEntity<UserDTO> getUser(
             @ApiParam(value = "User name to search for.", required = true)
-            @PathVariable(value = "name") @NotBlank @Size(max = 256) String name)
+            @PathVariable(value = "name") @NotBlank
+            @Size(max = 100, message = "name must not be greated then 100 characters")
+                    String name)
             throws ResourceNotFoundException {
 
         User user = userService.findUserByName(name)
@@ -67,13 +70,13 @@ public class UserController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PostMapping(path = "/users/{name}")
+    @PostMapping(path = "/users/{name}", produces = MediaType.APPLICATION_JSON)
     public UserDTO save(
             @ApiParam(value = "User name to save.", required = true)
             @PathVariable("name") @NotBlank
-            @Size(max = 256, message = "name must not be greated then 256 characters") String name,
+            @Size(max = 100, message = "name must not be greated then 100 characters") String name,
             @ApiParam(value = "User password to hash and save.", required = true)
-            @Valid @RequestBody String password) {
+            @Valid @NotNull @NotBlank @RequestBody String password) {
 
         User user = userService.save(name, password);
         return UserDTO.from(user);
@@ -86,13 +89,13 @@ public class UserController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(path = "/users/{name}")
+    @PutMapping(path = "/users/{name}", produces = MediaType.APPLICATION_JSON)
     public ResponseEntity<UserDTO> updateUser(
             @ApiParam(value = "User name to update.", required = true)
             @PathVariable(value = "name") @NotBlank
-            @Size(max = 256, message = "name must not be greated then 256 characters") String name,
+            @Size(max = 100, message = "name must not be greated then 100 characters") String name,
             @ApiParam(value = "User password to hash and update.", required = true)
-            @Valid @RequestBody String password)
+            @Valid @NotNull @NotBlank @RequestBody String password)
             throws ResourceNotFoundException {
 
         User user = userService.findUserByName(name)

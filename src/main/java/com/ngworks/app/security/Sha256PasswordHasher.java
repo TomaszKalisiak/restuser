@@ -2,8 +2,6 @@ package com.ngworks.app.security;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.nio.charset.StandardCharsets;
-
 public class Sha256PasswordHasher {
 
     public static String hashPassword(String name, String password) throws IllegalArgumentException {

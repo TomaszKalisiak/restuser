@@ -1,4 +1,4 @@
-package com.ngworks.app.config;
+package com.ngworks.app.web.rest.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
