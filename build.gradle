@@ -23,8 +23,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jersey'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compile 'commons-codec:commons-codec:1.9'
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.0.1'
-    compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.8.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.8.0'
+    compile group: 'io.springfox', name: 'springfox-bean-validators', version: '2.8.0'
+    /*compile group: 'com.google.guava', name: 'guava', version: '11.0.2'*/
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
