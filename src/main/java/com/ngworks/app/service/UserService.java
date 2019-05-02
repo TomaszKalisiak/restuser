@@ -3,8 +3,8 @@ package com.ngworks.app.service;
 import com.ngworks.app.dao.model.User;
 import com.ngworks.app.dao.repositories.UserRepository;
 import com.ngworks.app.security.Sha256PasswordHasher;
-import com.ngworks.app.web.representation.UserDTO;
-import com.ngworks.app.web.representation.UsersDTO;
+import com.ngworks.app.web.rest.dto.UserDTO;
+import com.ngworks.app.web.rest.dto.UsersDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,29 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
-@Service
-@Transactional
-public class UserService {
 
-    private static Logger LOG = LoggerFactory.getLogger(UserService.class);
+public interface UserService {
 
-    private UserRepository userRepository;
+    List<User> getAllUsers();
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    Optional<User> findUserByName(String name);
 
-    public UsersDTO getAllUsers() {
-        LOG.debug("Getting all users.");
-        List<User> users = userRepository.findAll();
-        return UserMapper.mapUsers(users);
-    }
-
-    public UserDTO save(String name, String password) {
-        LOG.debug(String.format("Saving name/hashedPassword [name=%s, hashedPassword=%s]", name, password));
-        User user = userRepository.save(new User(name, Sha256PasswordHasher.hashPassword(name, password)));
-        return new UserDTO(user.getName(), user.getHashedPassword());
-    }
+    User save(String name, String password);
 }

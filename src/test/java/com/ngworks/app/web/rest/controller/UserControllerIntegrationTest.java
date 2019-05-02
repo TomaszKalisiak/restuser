@@ -1,7 +1,7 @@
-package com.ngworks.app.web.controller;
+package com.ngworks.app.web.rest.controller;
 
 import com.ngworks.app.App;
-import com.ngworks.app.web.representation.UserDTO;
+import com.ngworks.app.web.rest.dto.UserDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
