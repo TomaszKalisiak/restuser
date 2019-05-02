@@ -1,6 +1,6 @@
 package com.ngworks.app.web.controller;
 
-import com.ngworks.app.service.CredentialStoreService;
+import com.ngworks.app.service.UserService;
 import com.ngworks.app.web.representation.UserDTO;
 import com.ngworks.app.web.representation.UsersDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
-    private CredentialStoreService credentialStoreService;
+    private UserService userService;
 
     @Autowired
-    public UserController(CredentialStoreService credentialStoreService) {
-        this.credentialStoreService = credentialStoreService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping(path = "/test")
@@ -24,12 +24,12 @@ public class UserController {
 
     @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public UsersDTO getUsers() {
-        return credentialStoreService.getAllUsers();
+        return userService.getAllUsers();
     }
 
     @PutMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO save(@RequestParam ("name") String name,
                         @RequestParam("password") String password) {
-        return credentialStoreService.save(name, password);
+        return userService.save(name, password);
     }
 }

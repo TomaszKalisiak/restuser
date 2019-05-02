@@ -1,0 +1,23 @@
+# change tomcat http port
+server:
+  port: 8888
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        # Enabling H2 Console
+        generate_statistics: true
+        format_sql: true
+    show-sql: true
+  h2:
+    console:
+      #Turn Statistics on
+      enabled: true
+logging:
+  level:
+    org:
+      hibernate:
+        #Show all queries
+        stat: debug
+        type: debug

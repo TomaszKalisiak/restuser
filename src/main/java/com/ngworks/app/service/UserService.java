@@ -15,14 +15,14 @@ import java.util.List;
 
 @Service
 @Transactional
-public class CredentialStoreService {
+public class UserService {
 
-    private static Logger LOG = LoggerFactory.getLogger(CredentialStoreService.class);
+    private static Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     private UserRepository userRepository;
 
     @Autowired
-    public CredentialStoreService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
